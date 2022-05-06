@@ -1,25 +1,30 @@
 import React from "react";
-import "./Home.css";
-import Logo from "../Utilities/Logo.png";
 import RightImage from "../Utilities/RightImage.jpg";
+import Header from "../components/Header";
 import styled from "styled-components";
 import { mobile } from "../Utilities/responsive";
+import { auth, provider } from "../firebaseConfig";
 
 const Home = () => {
+  const signin = async (e) => {
+    e.preventDefault();
+    provider.setCustomParameters({ prompt: "select_account" });
+    await auth
+      .signInWithPopup(provider)
+      .catch(alert)
+      .then(() => {
+        const user = auth.currentUser;
+        console.log(user.phoneNumber);
+      });
+  };
+
   return (
     <Container>
       {/* Home Container */}
       <HomeCon>
         {/* inner glass box */}
         <MainBox>
-          <NavBar>
-            <NavUl>
-              <Navli>
-                <ImageLogo src={Logo} alt="Logo" />
-              </Navli>
-              <Navli login>Login now</Navli>
-            </NavUl>
-          </NavBar>
+          <Header />
           <MainContent>
             <MainText>
               <h1>
@@ -30,7 +35,7 @@ const Home = () => {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
                 tempora error consequatur veniam soluta cumque ducimus! Soluta
               </p>
-              <Button>Login Now</Button>
+              <Button onClick={signin}>Login Now</Button>
             </MainText>
             <MainImage>
               <ImageRight src={RightImage} alt="Right" />
@@ -70,47 +75,6 @@ const MainBox = styled.div`
   backdrop-filter: blur(0.5rem);
   z-index: 4;
   ${mobile({ width: "90%" })}
-`;
-
-const NavBar = styled.nav`
-  padding: 40px;
-`;
-
-const NavUl = styled.ul`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Navli = styled.li`
-  ${(props) =>
-    props.login && {
-      padding: "10px",
-      borderRadius: "10px",
-      color: "#426696",
-      background: `linear-gradient(
-    to left top,
-    #65dfc9,
-    #6cdbeb
-  )`,
-      transition: "0.3s ease-in-out",
-    }}
-  cursor: pointer;
-
-  &:hover {
-    background: ${(props) =>
-      props.login &&
-      `linear-gradient(
-    to right bottom,
-    #26a890, #3fe3fb
-  )`};
-  }
-`;
-
-const ImageLogo = styled.img`
-  max-width: 140px;
-  object-fit: contain;
-  border-radius: 20px;
 `;
 
 const MainContent = styled.div`
