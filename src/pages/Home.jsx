@@ -51,7 +51,7 @@ export default Home;
 const Container = styled.div`
   display: flex;
   min-height: 80vh;
-  ${mobile({ flexDirection: "column" })}
+  ${mobile({ flexDirection: "column", minHeight: "95vh" })}
 `;
 
 const Dashboard = styled.div`
@@ -91,7 +91,11 @@ const Links = styled.div`
   justify-content: space-around;
   flex-direction: column;
   height: 100%;
-  ${mobile({ flexDirection: "row" })}
+  ${mobile({
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+  })}
 `;
 
 const Child = styled.div`
@@ -120,6 +124,7 @@ const Pro = styled.div`
   color: white;
   padding: 1rem;
   position: relative;
+  ${mobile({ marginTop: "2px" })}
 `;
 
 const Details = styled.div`
