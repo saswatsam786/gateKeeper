@@ -5,6 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebaseConfig";
 import "./Home.css";
 import { mobile } from "../Utilities/responsive";
+import Video from "../components/Video";
 
 const Home = () => {
   const [user] = useAuthState(auth);
@@ -41,7 +42,9 @@ const Home = () => {
           <h2>Join pro for free games.</h2>
         </Pro>
       </Dashboard>
-      <Details>helo</Details>
+      <Details>
+        <Video />
+      </Details>
     </Container>
   );
 };

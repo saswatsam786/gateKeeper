@@ -35,7 +35,9 @@ function App() {
 
 export default App;
 
-const Container = styled.section``;
+const Container = styled.section`
+  overflow: hidden;
+`;
 
 const HomeCon = styled.div`
   width: 100%;
@@ -59,7 +61,8 @@ const MainBox = styled.div`
   border-radius: 1rem;
   backdrop-filter: blur(0.5rem);
   z-index: 4;
-  ${mobile({ width: "90%" })}
+
+  ${mobile({ width: "97%" })};
 `;
 
 const Circle = styled.div`
