@@ -9,7 +9,7 @@ import { mobile } from "./Utilities/responsive";
 
 function App() {
   const [user] = useAuthState(auth);
-  console.log(auth.currentUser);
+
   return (
     <BrowserRouter className="App">
       <Container>

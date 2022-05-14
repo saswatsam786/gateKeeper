@@ -48,7 +48,7 @@ const Home = () => {
           accid: props.data.id,
           privatekey: props.data.privatekey,
           publickey: props.data.publickey,
-          lib: [],
+          imgURL: [],
           accountCreationDate: createAcc.toLocaleDateString(),
         })
         .catch((err) => {

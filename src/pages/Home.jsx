@@ -6,11 +6,13 @@ import { auth } from "../firebaseConfig";
 import "./Home.css";
 import { mobile } from "../Utilities/responsive";
 import Video from "../components/Video";
+import Modal from "../components/Modal";
 
 const Home = () => {
   const [user] = useAuthState(auth);
   return (
     <Container>
+      <Modal />
       <Dashboard>
         <User>
           <Avatar
