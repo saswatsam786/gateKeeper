@@ -36,6 +36,7 @@ export default function BasicModal() {
   const [id, setID] = useState();
   const [progress, setProgress] = useState(0);
   const [disable, setDisable] = useState(false);
+  const [text, setText] = useState("Take a Selfie");
 
   useEffect(() => {
     db.collection("accounts")
@@ -55,7 +56,12 @@ export default function BasicModal() {
   return (
     <>
       {progress === 100 ? (
-        <Alert onClose={() => {}} severity="success">
+        <Alert
+          onClose={() => {
+            setOpen(false);
+          }}
+          severity="success"
+        >
           <AlertTitle>Uploaded</AlertTitle>
           You image has been uploaded — <strong>Give Attendence</strong>
         </Alert>
@@ -87,9 +93,10 @@ export default function BasicModal() {
                   disabled={disable}
                   onClick={() => {
                     const imgSrc = getScreenshot();
+                    setText("Wait for it");
 
                     const uploadTask = storage
-                      .ref(`images/${user.displayName}`)
+                      .ref(`images/${user.displayName}/`)
                       .putString(imgSrc, "data_url");
                     uploadTask.on(
                       "state_changed",
@@ -109,6 +116,7 @@ export default function BasicModal() {
                           .child(user.displayName)
                           .getDownloadURL()
                           .then(async (url) => {
+                            console.log(url);
                             const variable = db.collection("accounts").doc(id);
                             await variable.update({
                               imgURL:
@@ -116,6 +124,7 @@ export default function BasicModal() {
                             });
                             setProgress(0);
                             setDisable(true);
+                            setOpen(false);
                           })
                           .catch((err) => console.error(err));
                       }
@@ -123,7 +132,7 @@ export default function BasicModal() {
                     //   console.log(imageSrc);
                   }}
                 >
-                  {progress ? "Wait a Second" : "Take Attendence"}
+                  {text}
                 </Button>
               )}
             </Webcam>

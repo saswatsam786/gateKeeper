@@ -44,6 +44,7 @@ const Home = () => {
     await axios.get("http://localhost:8000/createAccount").then((props) => {
       db.collection("accounts")
         .add({
+          name: user.displayName,
           email: user.email,
           accid: props.data.id,
           privatekey: props.data.privatekey,

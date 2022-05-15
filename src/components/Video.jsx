@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import Webcam from "react-webcam";
 import { mobile } from "../Utilities/responsive";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { db, auth } from "../firebaseConfig";
@@ -20,8 +19,9 @@ const Video = () => {
   const canvasRef = useRef();
   const [height, setHeight] = useState(480);
   const [width, setWidth] = useState(640);
-  const [image, setImage] = useState("");
+  const [refImage, setRefImage] = useState("");
 
+  const count = 0;
   // eslint-disable-next-line no-restricted-globals
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const Video = () => {
       .where("email", "==", user.email)
       .onSnapshot((snapshot) => {
         snapshot.forEach(async (snap) => {
-          setImage(snap.data().imgURL[0]);
+          setRefImage(snap.data().imgURL[0]);
         });
       });
   }, [user]);
@@ -48,6 +48,7 @@ const Video = () => {
         faceapi.nets.faceLandmark68Net.loadFromUri(MODEL),
         faceapi.nets.faceRecognitionNet.loadFromUri(MODEL),
         faceapi.nets.faceExpressionNet.loadFromUri(MODEL),
+        faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL),
       ]).then(startVideo);
     };
     loadModels();
@@ -55,6 +56,10 @@ const Video = () => {
 
   const detect = async () => {
     setInterval(async () => {
+      const labeledFaceDescriptors = await loadImage();
+
+      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+      console.log(faceMatcher);
       if (initialise) {
         setInitialise(false);
       }
@@ -71,14 +76,56 @@ const Video = () => {
           new faceapi.TinyFaceDetectorOptions()
         )
         .withFaceLandmarks()
-        .withFaceExpressions();
+        .withFaceExpressions()
+        .withFaceDescriptors();
+
       const resizeDetections = faceapi.resizeResults(detections, displaySize);
       canvasRef.current.getContext("2d").clearRect(0, 0, width, height);
       faceapi.draw.drawDetections(canvasRef.current, resizeDetections);
       faceapi.draw.drawFaceLandmarks(canvasRef.current, resizeDetections);
       faceapi.draw.drawFaceExpressions(canvasRef.current, resizeDetections);
+
+      // const results = await faceapi
+      //   .detectAllFaces(refImage)
+      //   .withFaceLandmarks()
+      //   .withFaceDescriptors();
+
+      const results = resizeDetections.map((d) =>
+        faceMatcher.findBestMatch(d.descriptor)
+      );
+
+      console.log(results);
+
+      resizeDetections.forEach((detection) => {
+        const box = detection.detection.box;
+        const drawBox = new faceapi.draw.DrawBox(box, { label: "face" });
+        drawBox.draw(canvasRef.current);
+      });
     }, 1000);
   };
+
+  async function loadImage() {
+    const labels = [user.displayName];
+
+    return Promise.all(
+      labels.map(async (label) => {
+        const descriptions = [];
+        const img = await faceapi.fetchImage(`${refImage}`);
+        console.log(img);
+        const detections = await faceapi
+          .detectAllFaces(img)
+          .withFaceLandmarks()
+          .withFaceDescriptors();
+
+        descriptions.push(detections.descriptor);
+
+        return new faceapi.LabeledFaceDescriptors(
+          user.displayName,
+          descriptions
+        );
+      })
+    );
+  }
 
   const startVideo = async () => {
     navigator.getUserMedia(
@@ -99,10 +146,7 @@ const Video = () => {
         style={{ width: "100%" }}
         onPlay={detect}
       />
-      <canvas
-        ref={canvasRef}
-        style={{ position: "absolute", width: "100%", height: "100%" }}
-      />
+      <canvas ref={canvasRef} style={{ position: "absolute", width: "100%" }} />
 
       {/* <Webcam
         ref={webcamRef}
@@ -119,10 +163,11 @@ const Video = () => {
 export default Video;
 
 const Camera = styled.div`
-  height: 200%;
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   object-fit: contain;
   ${mobile({ minWidth: "120%" })}
 `;
