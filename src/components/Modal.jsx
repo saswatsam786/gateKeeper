@@ -43,7 +43,6 @@ export default function BasicModal() {
       .where("email", "==", user.email)
       .onSnapshot((snapshot) => {
         snapshot.forEach(async (snap) => {
-          console.log(snap.data().imgURL.length);
           setID(snap.id);
           if (!snap.data().imgURL.length) setOpen(true);
           else setOpen(false);
