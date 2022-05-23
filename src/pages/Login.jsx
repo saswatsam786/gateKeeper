@@ -50,6 +50,7 @@ const Home = () => {
           privatekey: props.data.privatekey,
           publickey: props.data.publickey,
           imgURL: [],
+          attendence: [],
           accountCreationDate: createAcc.toLocaleDateString(),
         })
         .catch((err) => {
