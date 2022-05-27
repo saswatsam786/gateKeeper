@@ -1,11 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { mobile } from "../Utilities/responsive";
+import Alert from "@mui/material/Alert";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { db, auth } from "../firebaseConfig";
+import firebase from "firebase";
 import * as faceapi from "face-api.js";
 
-const Video = () => {
+const Video = ({ play }) => {
   const [user] = useAuthState(auth);
   const [id, setID] = useState("");
   const [initialise, setInitialise] = useState(false);
@@ -13,15 +16,30 @@ const Video = () => {
   const canvasRef = useRef();
   const [height, setHeight] = useState(480);
   const [width, setWidth] = useState(640);
-  const [faceMatcher, setFaceMatcher] = useState();
   const [data, setData] = useState([]);
   const [date, setDate] = useState(new Date());
+  const [latestDate, setLatestDate] = useState();
+  const [attendence, setAttendence] = useState(false);
+  const [dbAttendence, setdbAttendence] = useState(false);
+  const [checkCredit, setCheckCredit] = useState(true);
 
   useEffect(() => {
     db.collection("accounts")
       .where("email", "==", user.email)
-      .get()
-      .then((querySnapshot) => querySnapshot.forEach((doc) => setID(doc.id)));
+      .onSnapshot((snapshot) => {
+        snapshot.forEach((snap) => {
+          setID(snap.id);
+          const month = getMonth(date.getMonth());
+          const latestAttendence =
+            snap.data()[month][snap.data()[month].length - 1];
+          setLatestDate(latestAttendence);
+          let dat = date.getDate();
+          console.log(date.getHours());
+          dat === latestAttendence && setdbAttendence(true);
+          console.log(latestAttendence);
+        });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   useEffect(() => {
@@ -37,6 +55,15 @@ const Video = () => {
 
   useEffect(() => {
     const loadModels = async () => {
+      const startVideo = async () => {
+        navigator.getUserMedia(
+          {
+            video: play,
+          },
+          (stream) => (webcamRef.current.srcObject = stream),
+          (err) => console.log(err)
+        );
+      };
       const MODEL = process.env.PUBLIC_URL + "/models";
       setInitialise(true);
       Promise.all([
@@ -49,70 +76,108 @@ const Video = () => {
       ]).then(startVideo);
     };
     loadModels();
-  }, []);
+    // eslint-disable-next-line no-use-before-define
+  }, [play]);
+
+  function getMonth(monthNum) {
+    const monthNames = [
+      "january",
+      "february",
+      "march",
+      "april",
+      "may",
+      "june",
+      "july",
+      "august",
+      "september",
+      "october",
+      "november",
+      "december",
+    ];
+
+    return monthNames[monthNum];
+  }
+
+  async function addAttendence(attended) {
+    let hours = date.getHours();
+    let dat = date.getDate();
+    if (attended && hours <= 23 && hours >= 1) {
+      const variable = db.collection("accounts").doc(id);
+      const month = getMonth(date.getMonth());
+      const currentDate = date.getDate();
+      // if (latestDate !== currentDate && checkCredit) {
+      //   setCheckCredit(false);
+      //   window.location.reload();
+      //   console.log("hello");
+      // } else {
+      //   console.log("sundar");
+      // }
+      await variable
+        .update({
+          [month]: firebase.firestore.FieldValue.arrayUnion(dat),
+        })
+        .then(() => {
+          !dbAttendence ? console.log("hello") : console.log("sundar");
+          setdbAttendence(true);
+          console.log(dbAttendence);
+        })
+        .then();
+    }
+  }
 
   const detect = async () => {
     const labeledFaceDescriptors = await loadImage();
+    console.log(data);
     console.log(labeledFaceDescriptors);
-    setFaceMatcher(labeledFaceDescriptors);
-    setInterval(async () => {
-      if (initialise) {
-        setInitialise(false);
-      }
-      canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(
-        webcamRef.current
-      );
+    play &&
+      setInterval(async () => {
+        if (initialise) {
+          setInitialise(false);
+        }
+        canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(
+          webcamRef.current
+        );
 
-      console.log(date.toUTCString());
+        const faceMat = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
 
-      const faceMat = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+        const displaySize = { width: width, height: height };
 
-      const displaySize = { width: width, height: height };
+        faceapi.matchDimensions(canvasRef.current, displaySize);
 
-      faceapi.matchDimensions(canvasRef.current, displaySize);
+        const detections = await faceapi
+          .detectAllFaces(
+            webcamRef.current,
+            new faceapi.TinyFaceDetectorOptions()
+          )
+          .withFaceLandmarks()
+          .withFaceExpressions()
+          .withFaceDescriptors()
+          .withAgeAndGender();
 
-      const detections = await faceapi
-        .detectAllFaces(
-          webcamRef.current,
-          new faceapi.TinyFaceDetectorOptions()
-        )
-        .withFaceLandmarks()
-        .withFaceExpressions()
-        .withFaceDescriptors()
-        .withAgeAndGender();
+        const resizeDetections = faceapi.resizeResults(detections, displaySize);
+        canvasRef.current.getContext("2d").clearRect(0, 0, width, height);
+        faceapi.draw.drawDetections(canvasRef.current, resizeDetections);
+        faceapi.draw.drawFaceLandmarks(canvasRef.current, resizeDetections);
+        faceapi.draw.drawFaceExpressions(canvasRef.current, resizeDetections);
 
-      const resizeDetections = faceapi.resizeResults(detections, displaySize);
-      canvasRef.current.getContext("2d").clearRect(0, 0, width, height);
-      faceapi.draw.drawDetections(canvasRef.current, resizeDetections);
-      faceapi.draw.drawFaceLandmarks(canvasRef.current, resizeDetections);
-      faceapi.draw.drawFaceExpressions(canvasRef.current, resizeDetections);
-
-      // eslint-disable-next-line no-lone-blocks
-      // {
-      //   resizeDetections.forEach((detection) => {
-      //     console.log(detection);
-      //     const box = detection.detection.box;
-      //     const drawBox = new faceapi.draw.DrawBox(box, {
-      //       label: Math.round(detection.age) + " year old " + detection.gender,
-      //     });
-      //     drawBox.draw(canvasRef.current);
-      //   });
-      // }
-
-      const results = resizeDetections.map((detect) => {
-        return faceMat.findBestMatch(detect.descriptor);
-      });
-
-      console.log(results);
-
-      results.forEach((result, i) => {
-        const box = resizeDetections[i].detection.box;
-        const drawBox = new faceapi.draw.DrawBox(box, {
-          label: result.toString(),
+        const results = resizeDetections.map((detect) => {
+          return faceMat.findBestMatch(detect.descriptor);
         });
-        drawBox.draw(canvasRef.current);
-      });
-    }, 1000);
+
+        !attendence &&
+          results.map((result) => {
+            setAttendence(result.label === user.displayName);
+            return result.label === user.displayName && addAttendence(true);
+          });
+
+        results.forEach((result, i) => {
+          const box = resizeDetections[i].detection.box;
+          const drawBox = new faceapi.draw.DrawBox(box, {
+            label: result.toString(),
+          });
+          drawBox.draw(canvasRef.current);
+        });
+      }, 3000);
   };
 
   async function loadImage() {
@@ -132,27 +197,30 @@ const Video = () => {
     );
   }
 
-  const startVideo = async () => {
-    navigator.getUserMedia(
-      {
-        video: true,
-      },
-      (stream) => (webcamRef.current.srcObject = stream),
-      (err) => console.log(err)
-    );
-  };
-
   return (
-    <Camera style={{ position: "relative" }}>
-      <video
-        ref={webcamRef}
-        autoPlay={true}
-        muted
-        style={{ width: "100%" }}
-        onPlay={detect}
-      />
-      <canvas ref={canvasRef} style={{ position: "absolute", width: "100%" }} />
-    </Camera>
+    <>
+      {dbAttendence && (
+        <Alert style={{ position: "absolute", zIndex: 3, top: 0 }}>
+          Your attendece has been recorded for today
+        </Alert>
+      )}
+      <Camera style={{ position: "relative" }}>
+        <video
+          ref={webcamRef}
+          autoPlay
+          muted
+          style={{ width: "100%" }}
+          onPlay={play && detect}
+        />
+        <canvas
+          ref={canvasRef}
+          style={{ position: "absolute", width: "100%" }}
+        />
+      </Camera>
+      <LatestAttendence>
+        Last attendece was submitted on:{latestDate}
+      </LatestAttendence>
+    </>
   );
 };
 
@@ -166,4 +234,10 @@ const Camera = styled.div`
   align-items: center;
   object-fit: contain;
   ${mobile({ minWidth: "120%" })}
+`;
+
+const LatestAttendence = styled.h5`
+  position: absolute;
+  bottom: 0;
+  color: "#658ec6" !important;
 `;
