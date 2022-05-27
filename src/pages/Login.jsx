@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import RightImage from "../Utilities/RightImage.jpg";
 import Header from "../components/Header";
 import styled from "styled-components";
 import { mobile } from "../Utilities/responsive";
@@ -50,7 +49,19 @@ const Home = () => {
           privatekey: props.data.privatekey,
           publickey: props.data.publickey,
           imgURL: [],
-          attendence: [],
+          january: [],
+          february: [],
+          march: [],
+          april: [],
+          may: [],
+          june: [],
+          july: [],
+          august: [],
+          september: [],
+          october: [],
+          november: [],
+          december: [],
+          dateOfJoining: [],
           accountCreationDate: createAcc.toLocaleDateString(),
         })
         .catch((err) => {
@@ -75,7 +86,13 @@ const Home = () => {
           <Button onClick={signin}>Login Now</Button>
         </MainText>
         <MainImage>
-          <ImageRight src={RightImage} alt="Right" />
+          <lottie-player
+            src="https://assets10.lottiefiles.com/packages/lf20_PFlb1t.json"
+            background="transparent"
+            loop
+            autoplay
+            style={{ width: "90%" }}
+          ></lottie-player>
         </MainImage>
       </MainContent>
     </>
@@ -131,7 +148,7 @@ const MainText = styled.div`
     background: #089d8f;
     position: absolute;
     left: 2.4rem;
-    top: 12rem;
+    top: 19rem;
     ${mobile({ bottom: "11rem" })}
   }
 
@@ -160,11 +177,6 @@ const MainImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const ImageRight = styled.img`
-  width: 95%;
-  border-radius: 10px;
 `;
 
 // const Circle = styled.div``;
