@@ -6,6 +6,7 @@ import { auth } from "./firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import styled from "styled-components";
 import { mobile } from "./Utilities/responsive";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [user] = useAuthState(auth);

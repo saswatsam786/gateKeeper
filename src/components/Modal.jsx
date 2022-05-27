@@ -56,6 +56,7 @@ export default function BasicModal() {
     <>
       {progress === 100 ? (
         <Alert
+          style={{ position: "absolute", zIndex: 2 }}
           onClose={() => {
             setOpen(false);
           }}
@@ -124,6 +125,7 @@ export default function BasicModal() {
                             setProgress(0);
                             setDisable(true);
                             setOpen(false);
+                            window.location.reload();
                           })
                           .catch((err) => console.error(err));
                       }
