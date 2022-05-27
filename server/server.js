@@ -70,7 +70,7 @@ async function main() {
     //Create a new account with 1,000 tinybar starting balance
     const newAccountTransactionResponse = await new AccountCreateTransaction()
       .setKey(newAccountPublicKey)
-      .setInitialBalance(new Hbar(100))
+      .setInitialBalance(new Hbar(10))
       .execute(client);
 
     // Get the new account ID
@@ -121,10 +121,11 @@ async function main() {
       const id = req.body.id;
       const key = req.body.key;
       const amount = req.body.amount;
+      const giftee = req.body.giftee;
       console.log(id, amount);
       const transaction = new TransferTransaction()
         .addHbarTransfer(id, new Hbar(-amount))
-        .addHbarTransfer("0.0.2978176", new Hbar(amount));
+        .addHbarTransfer(giftee, new Hbar(amount));
 
       const client = Client.forTestnet();
       client.setOperator(id, key);
@@ -152,6 +153,9 @@ async function main() {
       console.log(
         "The hbar account balance for this account is " + accountBalance.hbars
       );
+      res.json({
+        message: "Transferred!! Refresh or Change Tab to see Balance ",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -192,5 +196,5 @@ async function main() {
 main();
 
 app.listen(port, () => {
-  console.log("SERVER RUNNING ON PORT 8000...");
+  console.log("SERVER RUNNING ON PORT 8000....");
 });
