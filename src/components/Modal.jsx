@@ -116,7 +116,6 @@ export default function BasicModal() {
                           .child(user.displayName)
                           .getDownloadURL()
                           .then(async (url) => {
-                            console.log(url);
                             const variable = db.collection("accounts").doc(id);
                             await variable.update({
                               imgURL:
@@ -130,7 +129,6 @@ export default function BasicModal() {
                           .catch((err) => console.error(err));
                       }
                     );
-                    //   console.log(imageSrc);
                   }}
                 >
                   {text}

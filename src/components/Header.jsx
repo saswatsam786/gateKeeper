@@ -10,9 +10,6 @@ const Header = () => {
         <Navli>
           <ImageLogo src={Logo} alt="Logo" />
         </Navli>
-        <Navli login onClick={() => console.log(2)}>
-          Login now
-        </Navli>
       </NavUl>
     </NavBar>
   );

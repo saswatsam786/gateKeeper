@@ -40,34 +40,36 @@ const Home = () => {
   async function createAccount() {
     const user = auth.currentUser;
     const createAcc = new Date();
-    await axios.get("http://localhost:8000/createAccount").then((props) => {
-      db.collection("accounts")
-        .add({
-          name: user.displayName,
-          email: user.email,
-          accid: props.data.id,
-          privatekey: props.data.privatekey,
-          publickey: props.data.publickey,
-          imgURL: [],
-          january: [],
-          february: [],
-          march: [],
-          april: [],
-          may: [],
-          june: [],
-          july: [],
-          august: [],
-          september: [],
-          october: [],
-          november: [],
-          december: [],
-          dateOfJoining: [],
-          accountCreationDate: createAcc.toLocaleDateString(),
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    });
+    await axios
+      .get("https://gatekeepers-backend.herokuapp.com/createAccount")
+      .then((props) => {
+        db.collection("accounts")
+          .add({
+            name: user.displayName,
+            email: user.email,
+            accid: props.data.id,
+            privatekey: props.data.privatekey,
+            publickey: props.data.publickey,
+            imgURL: [],
+            january: [],
+            february: [],
+            march: [],
+            april: [],
+            may: [],
+            june: [],
+            july: [],
+            august: [],
+            september: [],
+            october: [],
+            november: [],
+            december: [],
+            dateOfJoining: [],
+            accountCreationDate: createAcc.toLocaleDateString(),
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
   }
 
   return (
@@ -100,21 +102,6 @@ const Home = () => {
 };
 
 export default Home;
-
-// const MainBox = styled.div`
-//   background: white;
-//   width: 80%;
-//   min-height: 80vh;
-//   background: linear-gradient(
-//     to right bottom,
-//     rgba(255, 255, 255, 0.7),
-//     rgba(255, 255, 255, 0.3)
-//   );
-//   border-radius: 1rem;
-//   backdrop-filter: blur(0.5rem);
-//   z-index: 4;
-//   ${mobile({ width: "90%" })}
-// `;
 
 const MainContent = styled.div`
   display: flex;
@@ -178,5 +165,3 @@ const MainImage = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-// const Circle = styled.div``;

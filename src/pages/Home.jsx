@@ -27,12 +27,11 @@ const Home = () => {
       {
         headers: {
           "Content-Type": "application/json",
-          "X-Api-Key": "9YxLHxmkg6g9w/MolF8XeQ==xCWa4ssqaGev9qWx",
+          "X-Api-Key": process.env.REACT_APP_FACT_KEY,
         },
       }
     );
     setFact(result.data[0].fact);
-    console.log(result.data[0].fact);
   }
 
   return (
@@ -45,6 +44,7 @@ const Home = () => {
             alt={user.displayName}
             sx={{ width: 70, height: 70 }}
           />
+
           <h2>{user.displayName}</h2>
         </User>
         <Links>

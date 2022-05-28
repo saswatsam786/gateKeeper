@@ -7,7 +7,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { db, auth } from "../firebaseConfig";
 import firebase from "firebase";
 import * as faceapi from "face-api.js";
-import axios from "axios";
 
 const Video = () => {
   const [user] = useAuthState(auth);
@@ -52,10 +51,7 @@ const Video = () => {
             snap.data()[month][snap.data()[month].length - 1];
           setLatestDate(latestAttendence);
           let dat = date.getDate();
-          console.log(date.getHours());
           dat === latestAttendence && setdbAttendence(true);
-          console.log(latestAttendence);
-          console.log(process.env.REACT_APP_ACCOUNT_ID);
         });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,58 +102,24 @@ const Video = () => {
     return monthNames[monthNum];
   }
 
-  async function sendMoney() {
-    let data = await axios.post(
-      `https://gatekeepers-backend.herokuapp.com/transferMoney`,
-      {
-        id: process.env.REACT_APP_ACCOUNT_ID,
-        key: process.env.REACT_APP_PRIVATE_KEY,
-        amount: 1,
-        giftee: accid,
-      }
-    );
-    window.location.reload();
-
-    setResponse(data.data.message);
-    console.log(data.data.message);
-    // setTransaction(data.data.message);
-    // fetchBalance();
-    // setButton(false);
-  }
-
   async function addAttendence(attended) {
     let hours = date.getHours();
     let dat = date.getDate();
-    console.log(hours);
-    if (attended && hours <= 0 && hours >= 0) {
+    if (attended && hours <= 16 && hours >= 9) {
       const variable = db.collection("accounts").doc(id);
       const month = getMonth(date.getMonth());
-      const currentDate = date.getDate();
-      // if (latestDate !== currentDate && checkCredit) {
-      //   setCheckCredit(false);
-      //   window.location.reload();
-      //   console.log("hello");
-      // } else {
-      //   console.log("sundar");
-      // }
       await variable
         .update({
           [month]: firebase.firestore.FieldValue.arrayUnion(dat),
         })
         .then(() => {
-          !dbAttendence ? sendMoney() : console.log("sundar");
-          response && !dbAttendence && window.location.reload();
           setdbAttendence(true);
-          console.log(dbAttendence);
-        })
-        .then();
+        });
     }
   }
 
   const detect = async () => {
     const labeledFaceDescriptors = await loadImage();
-    console.log(data);
-    console.log(labeledFaceDescriptors);
 
     setInterval(async () => {
       if (initialise) {
@@ -215,7 +177,6 @@ const Video = () => {
         const descriptions = [];
         for (let i = 0; i <= 1; i++) {
           const img = await faceapi.fetchImage(`${imgURL || userImg}`);
-          console.log(img);
           const detections = await faceapi
             .detectAllFaces(img)
             .withFaceLandmarks()
