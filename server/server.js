@@ -154,7 +154,7 @@ async function main() {
         "The hbar account balance for this account is " + accountBalance.hbars
       );
       res.json({
-        message: "Transferred!! Refresh or Change Tab to see Balance ",
+        message: "Transferred!! to the giftee account",
       });
     } catch (error) {
       console.log(error);

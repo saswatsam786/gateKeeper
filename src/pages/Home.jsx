@@ -227,7 +227,7 @@ const Details = styled.div`
   display: flex;
   margin: 2rem 0rem;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: column;
   width: 100%;
   position: relative;

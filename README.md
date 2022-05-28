@@ -1,70 +1,179 @@
-# Getting Started with Create React App
+<!-- PROJECT LOGO -->
+<br>
+<div align="center">
+  <a href="#">
+    <img src="src/Utilities/Logo.png" alt="MovieNix Logo" width="175" height="80">
+  </a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  <h3 align="center">Gatekeeper</h3>
 
-## Available Scripts
+  <p align="center">
+   A one of kind attendece mangement system
+    <br />
+    <a href="https://justadudewhohacks.github.io/face-api.js/docs/index.html"><strong>Tensorflow Face-API ></strong></a>
+    <br />
+    <br />
+    <!-- <a target="_blank" href="">View Deployment</a> -->
+  </p>
+</div>
 
-In the project directory, you can run:
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project
+      </a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#planned-features-for-the-project">Planned Features</a></li>
+      </ul>
+    </li>
+    <li>
+       <a href="#server-routes">Server routes</a>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+    </li>
+    <li><a href="#project-members">Our Team</a></li>
+  </ol>
+</details>
 
-### `npm start`
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- ABOUT THE PROJECT -->
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## About The Project
 
-### `npm test`
+GateKeeper is one of a kind real time attendece management system built using face-api on top of tenserflow and has a decentralised payment system built using Hedera Hashgraph
+<br/><br/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Built With
 
-### `npm run build`
+- **[Tensorflow](https://justadudewhohacks.github.io/face-api.js/docs/index.html)** for face-API
+- **[ReactJS](https://reactjs.org/docs/getting-started.html)** for front-end
+- **[Hedera Hashgraph-SDK](https://docs.hedera.com/guides/)** for creating decentralised accounts and payment system
+- **[Express](https://expressjs.com/)** middleware on the backened to handle api routes and requests
+- **[Firebase](https://firebase.google.com/)** database and also used for authentication
+- **[Heroku](https://www.heroku.com/)** used for deploying and hosting the project
+- **[Github](https://github.com/)** for CI/CD and git
+- **[Firebase](https://firebase.google.com/)** for hosting frontend
+  <br/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Recording attendance** - Uses Tensorflow's advanced real-time face recognition algorithm to verify registered users only and track attendance.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Statistics** - Complex real-time data visualization made easy using chart.js
 
-### `npm run eject`
+3. **Rewards** - Collect crypto-credits(in hbars) for successfully submitting attendance and use it to for merchandise
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. **Uploading Photo** - Users are required to register their photo into the database in order for the application to work.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. **Built on the Hedera network** - An attendance management system built on the decentralised Hedera network using the Hashgraph SDK with decentralised payment system.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+6. **Check balance** - Settings page has been made for the user, where one can see his Hedera account id, account balance, account creation date, and transaction history.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<br/>
 
-## Learn More
+### Planned features for the project
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Upgraded reward system for maintaining a streak
+- A built-in store to spend your earned credits on college merch
+- Upload and check status of leave application in student portal.
+- Verification system for leave application on college portal
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<p align="right">(<a href="#">Back to top</a>)</p>
 
-### Code Splitting
+<!-- ## Currently working on
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. xyz
+2. abc -->
 
-### Analyzing the Bundle Size
+## Server Routes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+| Type | Route          | Description                                                                                                                    |
+| :--: | -------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| GET  | /createAccount | Creates an account for the user on the Hedera Network with a unique account ID                                                 |
+| POST | /balance       | Checks the balance of the user                                                                                                 |
+| POST | /transferMoney | Used for making a transaction between users                                                                                    |
+| POST | /deleteAccount | Called when the user deletes his/her account essentially deleting their account from the Hedera network and Firestore database |
 
-### Making a Progressive Web App
+<!-- ## Database Schema:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+    accounts
+      	├── user (string generated by Firebase)
+      		  ├── accid (Account ID provided by Hedera)
+      		  ├── accountCreationDate
+      		  ├── email
+      		  ├── lib (library array for the purchased movies)
+      	    		├── libraryItem
+      				       ├── expiryDate
+      				       ├── id (movie ID from TMDB)
+      				       ├── purchaseDate
+      				       ├── time
+      		  ├── privatekey (generated on account creation)
+      		  ├── publickey (provided by Hedera)
+``` -->
 
-### Advanced Configuration
+<p align="right">(<a href="#">Back to top</a>)</p>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Getting started
 
-### Deployment
+```bash
+git clone https://github.com/saswatsam786/movieNix.git
+git checkout dev-branch
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Create a .env file in the root directory:
 
-### `npm run build` fails to minify
+```
+REACT_APP_FIREBASE_API_KEY=<your_api_key>
+REACT_APP_FIREBASE_AUTH_DOMAIN=<your_project_id>.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=<your_project_id>
+REACT_APP_FIREBASE_STORAGE_BUCKET=<your_project_id>.appspot.com
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<your_project_messaging_id>
+REACT_APP_FIREBASE_APP_ID=<your_project_app_id>
+REACT_APP_FIREBASE_TMDB_API_KEY=<tmdb_api_key>
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Now create a .env file in the server directory:
+
+```bash
+MY_ACCOUNT_ID=<your_hedera_testnet_id>
+MY_PRIVATE_KEY=<your_private_key>
+MY_PUBLIC_KEY=<your_public_key>
+
+# (for new user, they can register themselves at link given below and get the above credentials)
+https://portal.hedera.com/login
+```
+
+Run the command in the **root directory and the server directory to install all the dependencies**:
+
+```
+npm install
+npm start
+```
+
+To run the server on the local machine:
+
+```bash
+cd server
+npm i
+npm start
+```
+
+<p align="right">(<a href="#">Back to top</a>)</p>
+
+<!-- ## Project Members
+
+<div align="center">
+
+## Team Atreus
+
+<a href = "https://github.com/saswatsam786/movienix/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=saswatsam786/movienix">
+</a>
+</div> -->
