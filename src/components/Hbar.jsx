@@ -125,7 +125,8 @@ const Hbar = () => {
   };
 
   async function streakTransactionFunc() {
-    if (date.getDate() === 29) {
+    if (date.getDate() === 28) {
+      // eslint-disable-next-line no-unused-vars
       let data = await axios.post(
         `https://gatekeepers-backend.herokuapp.com/transferMoney`,
         {

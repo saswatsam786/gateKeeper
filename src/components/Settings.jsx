@@ -56,20 +56,26 @@ const Settings = () => {
 
   async function fetchBalance() {
     setAccbal("");
-    let data = await axios.post(" http://localhost:8000/balance", {
-      id: accid,
-      key: privatekey,
-    });
+    let data = await axios.post(
+      "https://gatekeepers-backend.herokuapp.com/balance",
+      {
+        id: accid,
+        key: privatekey,
+      }
+    );
     setAccbal(
       (data.data.data.balance._valueInTinybar / 100000000 - 0).toFixed(4)
     );
   }
 
   async function deleteAccount() {
-    await axios.post(`https://movienix-backend.herokuapp.com/deleteAccount`, {
-      id: accid,
-      key: privatekey,
-    });
+    await axios.post(
+      `https://gatekeepers-backend.herokuapp.com/deleteAccount`,
+      {
+        id: accid,
+        key: privatekey,
+      }
+    );
     setDisableBtn(true);
 
     user && (await db.collection("accounts").doc(dbId).delete());
