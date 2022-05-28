@@ -14,6 +14,7 @@ import {
   DialogTitle,
   IconButton,
 } from "@mui/material";
+import styled from "styled-components";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { Delete } from "@mui/icons-material";
 import { db, auth } from "../firebaseConfig";
@@ -69,8 +70,6 @@ const Settings = () => {
       id: accid,
       key: privatekey,
     });
-    console.log("server deleted");
-    // console.log(data.data.success);
     setDisableBtn(true);
 
     user && (await db.collection("accounts").doc(dbId).delete());
@@ -199,11 +198,20 @@ const Settings = () => {
           <CardActions
             sx={{
               margin: "auto",
-              justifyContent: "center",
+              justifyContent: "space-around",
               alignItems: "center",
               textAlign: "center",
             }}
           >
+            <LogOut
+              color="error"
+              sx={{ background: "error" }}
+              onClick={() => {
+                auth.signOut();
+              }}
+            >
+              LogOut
+            </LogOut>
             <Button
               disabled={disableBtn}
               onClick={handleClickOpen}
@@ -212,6 +220,7 @@ const Settings = () => {
             >
               Delete Account
             </Button>
+
             <Dialog
               open={open}
               onClose={handleClose}
@@ -247,3 +256,20 @@ const Settings = () => {
 };
 
 export default Settings;
+
+const LogOut = styled.button`
+  padding: 15px;
+  border-radius: 10px;
+  color: #426696;
+  font-size: 1.2rem;
+  background: #09c4a3a1;
+  transition: 0.3s ease-in-out;
+  outline: none;
+  border: none;
+  transition: all 1s ease;
+  cursor: pointer;
+  &:hover {
+    background: linear-gradient(to right bottom, #26a890, #3fe3fb);
+    transition: all 1s ease-in-out;
+  }
+`;
