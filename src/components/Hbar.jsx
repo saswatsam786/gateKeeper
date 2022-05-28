@@ -4,33 +4,80 @@ import styled from "styled-components";
 import { db, auth } from "../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import axios from "axios";
+import firebase from "firebase";
 
 const Hbar = () => {
   const [user] = useAuthState(auth);
   const [accid, setAccid] = useState("");
+  const [docid, setDocId] = useState("");
   const [accbal, setAccbal] = useState("");
   const [privatekey, setPrivatekey] = useState("");
   const [button, setButton] = useState(false);
   const [transaction, setTransaction] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  const [date, setDate] = useState(new Date());
+  const [streaks, setStreaks] = useState(0);
+  const [presents, setPresents] = useState(0);
+  const [streakTransaction, setStreakTransaction] = useState(false);
+  const [transactionDone, setTransactionDone] = useState(false);
 
   const initialState = {
     gifteeAccID: "",
     gifteeSend: "",
   };
+  const monthNames = [
+    "january",
+    "february",
+    "march",
+    "april",
+    "may",
+    "june",
+    "july",
+    "august",
+    "september",
+    "october",
+    "november",
+    "december",
+  ];
 
   const [giftee, setGiftee] = useState(initialState);
 
   const { gifteeAccID, gifteeSend } = giftee;
+
+  function getStreaks(presents) {
+    let i = 0,
+      streaks = 0,
+      currLen = 0;
+
+    for (let j = 1; j < 31; j++) {
+      if (j === presents[i]) {
+        currLen++;
+        i++;
+      } else {
+        streaks = Math.max(streaks, currLen);
+        currLen = 0;
+      }
+    }
+
+    setStreaks(streaks);
+  }
 
   useEffect(() => {
     db.collection("accounts")
       .where("email", "==", user.email)
       .onSnapshot((snapshot) => {
         snapshot.forEach((snap) => {
+          let month = date.getMonth();
           setPrivatekey(snap.data().privatekey);
           setAccid(snap.data().accid);
+          setDocId(snap.id);
+          setPresents(snap.data()[monthNames[month]]);
+          setStreakTransaction(snap.data().streakTransaction);
+          setTransactionDone(streakTransaction.includes(monthNames[month]));
         });
       });
+    getStreaks(presents);
+
     accid !== "" && fetchBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accid, privatekey, user.email]);
@@ -65,7 +112,6 @@ const Hbar = () => {
       }
     );
 
-    console.log(data.data.message);
     setTransaction(data.data.message);
     fetchBalance();
     setButton(false);
@@ -74,10 +120,34 @@ const Hbar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setButton(true);
-    console.log(giftee.gifteeAccID);
     sendMoney(giftee.gifteeAccID, giftee.gifteeSend);
     setGiftee(initialState);
   };
+
+  async function streakTransactionFunc() {
+    if (date.getDate() === 29) {
+      let data = await axios.post(
+        `https://gatekeepers-backend.herokuapp.com/transferMoney`,
+        {
+          id: process.env.REACT_APP_ACCOUNT_ID,
+          key: process.env.REACT_APP_PRIVATE_KEY,
+          amount: streaks,
+          giftee: accid,
+        }
+      );
+
+      const variable = db.collection("accounts").doc(docid);
+
+      await variable.update({
+        streakTransaction: firebase.firestore.FieldValue.arrayUnion(
+          monthNames[date.getMonth()]
+        ),
+      });
+
+      setTransactionDone(true);
+      fetchBalance();
+    }
+  }
 
   return (
     <>
@@ -144,8 +214,15 @@ const Hbar = () => {
           <Button type="submit">{button ? "Wait for it" : "Submit"}</Button>
         </Form>
       </Container>
-      <h5 style={{ position: "relativex", color: "#658ec6" }}>
-        {transaction ? transaction : "hello"}
+      <Button disabled={transactionDone} onClick={streakTransactionFunc}>
+        Streaks {streaks}
+      </Button>
+      <h5 style={{ position: "relative", color: "#658ec6" }}>
+        {transaction
+          ? transaction
+          : transactionDone
+          ? "You have already collected this month streak amount"
+          : "You can collect you streak amount at 28th of every month"}
       </h5>
     </>
   );
