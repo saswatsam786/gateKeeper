@@ -27,7 +27,7 @@ function App() {
             </Routes>
           </MainBox>
         </HomeCon>
-        <Circle top="4%" right="2%"></Circle>
+        <Circle top="4%" right="1.5%"></Circle>
         <Circle bottom="4%" left="2%"></Circle>
       </Container>
     </BrowserRouter>
