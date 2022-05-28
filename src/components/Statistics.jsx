@@ -85,7 +85,6 @@ const Statistics = () => {
       (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
     var oneDay = 1000 * 60 * 60 * 24;
     var day = Math.floor(diff / oneDay);
-    console.log("Day of year: " + day);
 
     return day;
   }
@@ -172,7 +171,6 @@ const Statistics = () => {
               },
             ],
           });
-          console.log(month);
         });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -190,7 +188,9 @@ const Statistics = () => {
         <Days>
           Total number of days present: <span>{days}</span>
         </Days>
-        <WorkingDays></WorkingDays>
+        <WorkingDays>
+          Total number of working days: {getPresentDay()}
+        </WorkingDays>
         <Percentage>
           Percentage number of days present:{" "}
           <span>{Math.floor((days / currentDays) * 100)}%</span>
@@ -229,7 +229,17 @@ const Days = styled.div`
   }
 `;
 
-const WorkingDays = styled.div``;
+const WorkingDays = styled.div`
+  padding: 10px;
+  background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+  color: #658ec6;
+  font-weight: 500;
+  border-radius: 10px;
+  margin: 2px;
+  & > span {
+    font-weight: 700;
+  }
+`;
 
 const Percentage = styled.div`
   padding: 10px;
