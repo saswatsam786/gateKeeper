@@ -117,6 +117,8 @@ REACT_APP_FIREBASE_PROJECT_ID=<your_project_id>
 REACT_APP_FIREBASE_STORAGE_BUCKET=<your_project_id>.appspot.com
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<your_project_messaging_id>
 REACT_APP_FIREBASE_APP_ID=<your_project_app_id>
+REACT_APP_ACCOUNT_ID=<your_hedera_testnet_id_same_as_server>
+REACT_APP_PRIVATE_KEY=<your_private_key_same_as_server>
 ```
 
 Now create a .env file in the server directory:
