@@ -66,11 +66,11 @@ GateKeeper is one of a kind real time attendece management system built using fa
 
 2. **Statistics** - Complex real-time data visualization made easy using chart.js
 
-3. **Rewards** - Collect crypto-credits(in hbars) for successfully submitting attendance and use it to for merchandise
+3. **Rewards** - Collect crypto-credits(in hbars) for successfully maintaining streak of attendance at 28th of every month.
 
 4. **Uploading Photo** - Users are required to register their photo into the database in order for the application to work.
 
-5. **Built on the Hedera network** - An attendance management system built on the decentralised Hedera network using the Hashgraph SDK with decentralised payment system.
+5. **Built on the Hedera network** - An attendance management system built on the decentralised Hedera network using the Hashgraph SDK with decentralised payment system to transfer crypto hbars with other users.
 
 6. **Check balance** - Settings page has been made for the user, where one can see his Hedera account id, account balance, account creation date, and transaction history.
 
@@ -78,7 +78,6 @@ GateKeeper is one of a kind real time attendece management system built using fa
 
 ### Planned features for the project
 
-- Upgraded reward system for maintaining a streak
 - A built-in store to spend your earned credits on college merch
 - Upload and check status of leave application in student portal.
 - Verification system for leave application on college portal
