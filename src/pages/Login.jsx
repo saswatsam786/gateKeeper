@@ -64,6 +64,7 @@ const Home = () => {
             november: [],
             december: [],
             dateOfJoining: [],
+            streakTransaction: [],
             accountCreationDate: createAcc.toLocaleDateString(),
           })
           .catch((err) => {
@@ -82,8 +83,8 @@ const Home = () => {
           </h1>
           <h2>One of a kind attendence management system</h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni
-            tempora error consequatur veniam soluta cumque ducimus! Soluta
+            A real time attendence management system using facial recognition
+            integrated with a decentralised payment/credit system
           </p>
           <Button onClick={signin}>Login Now</Button>
         </MainText>
