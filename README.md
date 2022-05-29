@@ -117,7 +117,6 @@ REACT_APP_FIREBASE_PROJECT_ID=<your_project_id>
 REACT_APP_FIREBASE_STORAGE_BUCKET=<your_project_id>.appspot.com
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<your_project_messaging_id>
 REACT_APP_FIREBASE_APP_ID=<your_project_app_id>
-REACT_APP_FIREBASE_TMDB_API_KEY=<tmdb_api_key>
 ```
 
 Now create a .env file in the server directory:

@@ -16,7 +16,9 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import firebase from "firebase";
 import { Delete } from "@mui/icons-material";
+import UploadIcon from "@mui/icons-material/Upload";
 import { db, auth } from "../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import axios from "axios";
@@ -26,6 +28,7 @@ const Settings = () => {
   const [accbal, setAccbal] = useState("");
   const [accid, setAccid] = useState("");
   const [dbId, setDbId] = useState("");
+  const [imgURL, setImgURL] = useState("");
   const [privatekey, setPrivatekey] = useState("");
   const [createDate, setCreateDate] = useState("");
   const [open, setOpen] = useState(false);
@@ -47,6 +50,7 @@ const Settings = () => {
           setDbId(snap.id);
           setPrivatekey(snap.data().privatekey);
           setAccid(snap.data().accid);
+          setImgURL(snap.data().imgURL[0]);
           setCreateDate(snap.data().accountCreationDate);
         });
       });
@@ -84,6 +88,14 @@ const Settings = () => {
       auth.signOut();
       window.location = "/";
     }, 1000);
+  }
+
+  async function uploadPhoto() {
+    const variable = db.collection("accounts").doc(dbId);
+
+    await variable.update({
+      imgURL: firebase.firestore.FieldValue.arrayRemove(imgURL),
+    });
   }
 
   return (
@@ -225,6 +237,13 @@ const Settings = () => {
               startIcon={<Delete />}
             >
               Delete Account
+            </Button>
+            <Button
+              onClick={uploadPhoto}
+              color="success"
+              startIcon={<UploadIcon />}
+            >
+              Upload Photo
             </Button>
 
             <Dialog

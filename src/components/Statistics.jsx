@@ -189,7 +189,7 @@ const Statistics = () => {
           Total number of days present: <span>{days}</span>
         </Days>
         <WorkingDays>
-          Total number of working days: {getPresentDay()}
+          Total number of working days: <span>{getPresentDay()}</span>
         </WorkingDays>
         <Percentage>
           Percentage number of days present:{" "}
