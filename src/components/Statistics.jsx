@@ -76,6 +76,7 @@ const Statistics = () => {
     "Not attended",
   ];
 
+  // get present day from january 1st
   function getPresentDay() {
     var now = new Date();
     var start = new Date(now.getFullYear(), 0, 0);
@@ -89,6 +90,7 @@ const Statistics = () => {
     return day;
   }
 
+  // Structures data for statistics by segregating it and adds different color to it
   useEffect(() => {
     db.collection("accounts")
       .where("email", "==", user.email)

@@ -38,6 +38,7 @@ export default function BasicModal() {
   const [disable, setDisable] = useState(false);
   const [text, setText] = useState("Take a Selfie");
 
+  // Gets docid and checks for imgURL
   useEffect(() => {
     db.collection("accounts")
       .where("email", "==", user.email)
@@ -92,9 +93,10 @@ export default function BasicModal() {
                 <Button
                   disabled={disable}
                   onClick={() => {
+                    // gets screens shot
                     const imgSrc = getScreenshot();
                     setText("Wait for it");
-
+                    // upload to firebase storage
                     const uploadTask = storage
                       .ref(`images/${user.displayName}/`)
                       .putString(imgSrc, "data_url");
@@ -111,6 +113,7 @@ export default function BasicModal() {
                         console.error(error);
                       },
                       () => {
+                        // saves the generated url from storage in firebase database
                         storage
                           .ref("images")
                           .child(user.displayName)

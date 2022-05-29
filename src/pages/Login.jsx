@@ -15,6 +15,7 @@ const Home = () => {
     if (user) navigate("/home");
   }, [navigate, user]);
 
+  // Google authentication sign in
   const signin = async (e) => {
     e.preventDefault();
     provider.setCustomParameters({ prompt: "select_account" });
@@ -37,6 +38,7 @@ const Home = () => {
       });
   };
 
+  // first login adds data to database and creates new account
   async function createAccount() {
     const user = auth.currentUser;
     const createAcc = new Date();

@@ -26,6 +26,7 @@ const Video = () => {
   const [response, setResponse] = useState("");
   const [userImg, setUserImg] = useState("");
 
+  // assign name to respective image URL of all accounts
   useEffect(() => {
     db.collection("accounts").onSnapshot((snapshot) => {
       setData(
@@ -37,6 +38,7 @@ const Video = () => {
     });
   }, []);
 
+  // gets id, hedera account id,private key, user image url, latest date of attendence
   useEffect(() => {
     db.collection("accounts")
       .where("email", "==", user.email)
@@ -57,6 +59,7 @@ const Video = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  // starts the camera and sets the model
   useEffect(() => {
     const loadModels = async () => {
       const startVideo = async () => {
@@ -102,10 +105,11 @@ const Video = () => {
     return monthNames[monthNum];
   }
 
+  // add attendence to database
   async function addAttendence(attended) {
     let hours = date.getHours();
     let dat = date.getDate();
-    if (attended && hours <= 16 && hours >= 9) {
+    if (attended && hours <= 23 && hours >= 11) {
       const variable = db.collection("accounts").doc(id);
       const month = getMonth(date.getMonth());
       await variable
@@ -118,6 +122,7 @@ const Video = () => {
     }
   }
 
+  // recognition and emotion detection
   const detect = async () => {
     const labeledFaceDescriptors = await loadImage();
 
@@ -171,6 +176,7 @@ const Video = () => {
     }, 1000);
   };
 
+  // gets image from database and adds descriptors to it
   async function loadImage() {
     return Promise.all(
       data.map(async ({ name, imgURL }) => {

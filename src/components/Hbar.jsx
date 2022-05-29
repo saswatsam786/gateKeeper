@@ -62,6 +62,7 @@ const Hbar = () => {
     setStreaks(streaks);
   }
 
+  // Gets privatekey,accid,docid,per month present, month in which streaks transaction happen
   useEffect(() => {
     db.collection("accounts")
       .where("email", "==", user.email)
@@ -77,11 +78,12 @@ const Hbar = () => {
         });
       });
     getStreaks(presents);
-
+    // gets balance feom server
     accid !== "" && fetchBalance();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accid, privatekey, user.email]);
 
+  // get balance function
   async function fetchBalance() {
     setAccbal("");
     let data = await axios.post(
@@ -96,11 +98,13 @@ const Hbar = () => {
     );
   }
 
+  // Gets input from the transaction form
   const handleChangeInput = (e) => {
     const { name, value } = e.target;
     setGiftee({ ...giftee, [name]: value });
   };
 
+  // send money function to giftee/receiver
   async function sendMoney(receiver, money) {
     let data = await axios.post(
       `https://gatekeepers-backend.herokuapp.com/transferMoney`,

@@ -20,6 +20,7 @@ const Home = () => {
   const [settings, setSettings] = useState(false);
   const [fact, setFact] = useState("Click for random facts");
 
+  // fact generator function
   async function factGenerator() {
     setFact("");
     const result = await axios.get(

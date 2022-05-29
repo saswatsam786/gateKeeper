@@ -42,6 +42,7 @@ const Settings = () => {
     setOpen(false);
   };
 
+  // Gets accid , docid,privatekey,imgURl and creation date from database
   useEffect(() => {
     db.collection("accounts")
       .where("email", "==", user.email)
@@ -58,6 +59,7 @@ const Settings = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accid, privatekey, user.email]);
 
+  // Get balance from hedera network function
   async function fetchBalance() {
     setAccbal("");
     let data = await axios.post(
@@ -72,6 +74,7 @@ const Settings = () => {
     );
   }
 
+  // function to delete account from firebase and hedera network function
   async function deleteAccount() {
     await axios.post(
       `https://gatekeepers-backend.herokuapp.com/deleteAccount`,
@@ -90,6 +93,7 @@ const Settings = () => {
     }, 1000);
   }
 
+  // Upload latest photo function
   async function uploadPhoto() {
     const variable = db.collection("accounts").doc(dbId);
 
