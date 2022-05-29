@@ -146,4 +146,6 @@ npm i
 npm start
 ```
 
+```if error then just refresh the page```
+
 <p align="right">(<a href="#">Back to top</a>)</p>
