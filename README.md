@@ -118,6 +118,7 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<your_project_messaging_id>
 REACT_APP_FIREBASE_APP_ID=<your_project_app_id>
 REACT_APP_ACCOUNT_ID=<your_hedera_testnet_id_same_as_server>
 REACT_APP_PRIVATE_KEY=<your_private_key_same_as_server>
+REACT_APP_FACT_KEY=<You_can_get_from_ https://api-ninjas.com/api/facts>
 ```
 
 Now create a .env file in the server directory:
@@ -147,5 +148,8 @@ npm start
 ```
 
 ```if error then just refresh the page```
+```Attendence are recorded between 11:00 AM and 11:00 PM```
+<a align="center" target="_blank" href="https://docs.google.com/presentation/d/1NMp7bxfiAiH_TOWzKF-rweuZy2ipltidb2X6IYFifuc/edit?usp=sharing">View Slides for more details</a>
+
 
 <p align="right">(<a href="#">Back to top</a>)</p>
