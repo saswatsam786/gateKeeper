@@ -8,7 +8,7 @@
   <h3 align="center">Gatekeeper</h3>
 
   <p align="center">
-   A one of kind attendece mangement system
+   A one of kind attendance management system
     <br />
     <a href="https://justadudewhohacks.github.io/face-api.js/docs/index.html"><strong>Tensorflow Face-API ></strong></a>
     <br />
@@ -26,6 +26,7 @@
       </a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#demo">Demo</a></li>
         <li><a href="#features">Features</a></li>
         <li><a href="#planned-features-for-the-project">Planned Features</a></li>
       </ul>
@@ -52,13 +53,19 @@ GateKeeper is one of a kind real time attendece management system built using fa
 
 - **[Tensorflow](https://justadudewhohacks.github.io/face-api.js/docs/index.html)** for face-API
 - **[ReactJS](https://reactjs.org/docs/getting-started.html)** for front-end
+- **[NodeJS]([https://reactjs.org/docs/getting-started.html](https://nodejs.org/docs/latest-v20.x/api/))** for server
 - **[Hedera Hashgraph-SDK](https://docs.hedera.com/guides/)** for creating decentralised accounts and payment system
-- **[Express](https://expressjs.com/)** middleware on the backened to handle api routes and requests
+- **[Express](https://expressjs.com/)** middleware on the backend to handle api routes and requests
 - **[Firebase](https://firebase.google.com/)** database and also used for authentication
 - **[Heroku](https://www.heroku.com/)** used for deploying and hosting the project
 - **[Github](https://github.com/)** for CI/CD and git
 - **[Firebase](https://firebase.google.com/)** for hosting frontend
   <br/>
+
+### Demo
+
+https://github.com/saswatsam786/gateKeeper/assets/77463804/cb95f924-91b6-49d5-9a45-27452679c1da
+<br/>
 
 ### Features
 
@@ -70,7 +77,7 @@ GateKeeper is one of a kind real time attendece management system built using fa
 
 4. **Uploading Photo** - Users are required to register their photo into the database in order for the application to work.
 
-5. **Built on the Hedera network** - An attendance management system built on the decentralised Hedera network using the Hashgraph SDK with decentralised payment system to transfer crypto hbars with other users.
+5. **Built on the Hedera network** - An attendance management system built on the decentralized Hedera network using the Hashgraph SDK with decentralized payment system to transfer crypto hbars with other users.
 
 6. **Check balance** - Settings page has been made for the user, where one can see his Hedera account id, account balance, account creation date, and transaction history.
 
@@ -79,8 +86,8 @@ GateKeeper is one of a kind real time attendece management system built using fa
 ### Planned features for the project
 
 - A built-in store to spend your earned credits on college merch
-- Upload and check status of leave application in student portal.
-- Verification system for leave application on college portal
+- Upload and check the status of the leave application in the student portal.
+- Verification system for leave application on the college portal
 
 <p align="right">(<a href="#">Back to top</a>)</p>
 
@@ -148,7 +155,7 @@ npm start
 ```
 
 ```if error then just refresh the page```
-```Attendence are recorded between 11:00 AM and 11:00 PM```
+```Attendance is recorded between 11:00 AM and 11:00 PM```
 <a align="center" target="_blank" href="https://docs.google.com/presentation/d/1NMp7bxfiAiH_TOWzKF-rweuZy2ipltidb2X6IYFifuc/edit?usp=sharing">View Slides for more details</a>
 
 
