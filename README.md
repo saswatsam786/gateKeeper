@@ -46,7 +46,7 @@
 
 ## About The Project
 
-GateKeeper is one of a kind real time attendece management system built using face-api on top of tenserflow and has a decentralised payment system built using Hedera Hashgraph
+GateKeeper is one of a kind real-time attendance management system built using face-api on top of TensorFlow and has a decentralized payment system built using Hedera Hashgraph
 <br/><br/>
 
 ### Built With
