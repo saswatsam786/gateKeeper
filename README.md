@@ -18,8 +18,8 @@
 </div>
 
 <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Contents</summary>
+
+ 
   <ol>
     <li>
       <a href="#about-the-project">About The Project
@@ -38,8 +38,6 @@
       <a href="#getting-started">Getting Started</a>
     </li>
   </ol>
-</details>
-
 <br/>
 
 <!-- ABOUT THE PROJECT -->
@@ -64,7 +62,9 @@ GateKeeper is one of a kind real-time attendance management system built using f
 
 ### Demo
 
-https://github.com/saswatsam786/gateKeeper/assets/77463804/cb95f924-91b6-49d5-9a45-27452679c1da
+
+https://github.com/saswatsam786/gateKeeper/assets/77463804/d27909e6-42d6-45a1-8568-b937989729f7
+
 <br/>
 
 ### Features
