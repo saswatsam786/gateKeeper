@@ -25,8 +25,8 @@
       <a href="#about-the-project">About The Project
       </a>
       <ul>
+         <li><a href="#demo">Demo</a></li>
         <li><a href="#built-with">Built With</a></li>
-        <li><a href="#demo">Demo</a></li>
         <li><a href="#features">Features</a></li>
         <li><a href="#planned-features-for-the-project">Planned Features</a></li>
       </ul>
@@ -47,6 +47,12 @@
 GateKeeper is one of a kind real-time attendance management system built using face-api on top of TensorFlow and has a decentralized payment system built using Hedera Hashgraph
 <br/><br/>
 
+### Demo
+
+https://github.com/saswatsam786/gateKeeper/assets/77463804/d27909e6-42d6-45a1-8568-b937989729f7
+
+<br/>
+
 ### Built With
 
 - **[Tensorflow](https://justadudewhohacks.github.io/face-api.js/docs/index.html)** for face-API
@@ -59,13 +65,6 @@ GateKeeper is one of a kind real-time attendance management system built using f
 - **[Github](https://github.com/)** for CI/CD and git
 - **[Firebase](https://firebase.google.com/)** for hosting frontend
   <br/>
-
-### Demo
-
-
-https://github.com/saswatsam786/gateKeeper/assets/77463804/d27909e6-42d6-45a1-8568-b937989729f7
-
-<br/>
 
 ### Features
 
